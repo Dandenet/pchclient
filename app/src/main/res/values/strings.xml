@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Pchecker</string>
+    <string name="app_in_name">Сканер штрих-кода</string>
+    <string name="btnSignIn">Войти</string>
+    <string name="btnRegister">Зарегистрироваться</string>
+    <string name="btnPrCheck">Сканер</string>
+    <string name="btnCart">Корзина</string>
+    <string name="text_bottom">Войдите в свою учетную запись!</string>
+</resources>
