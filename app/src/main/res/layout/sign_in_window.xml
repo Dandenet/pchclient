@@ -91,6 +91,7 @@
             android:layout_below="@+id/edit_password"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="94dp"
+            android:onClick="openSeach"
             android:text="Войти" />
 
         <TextView
