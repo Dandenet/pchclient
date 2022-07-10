@@ -56,12 +56,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void openCart(View view){
-        Intent intent = new Intent("android.intent.action.list");
-        startActivity(intent);
-    }
-
-
 
     public void openSeach(View view){
         Intent intent = new Intent("android.intent.action.found");

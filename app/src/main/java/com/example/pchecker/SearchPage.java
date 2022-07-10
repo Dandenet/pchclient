@@ -13,7 +13,8 @@ import com.example.pchecker.model.Cart;
 
 public class SearchPage extends AppCompatActivity {
 
-    Button button_search;
+    Button button_search, btn_cart;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,16 +22,31 @@ public class SearchPage extends AppCompatActivity {
         setContentView(R.layout.price_checker);
         button_search = findViewById(R.id.btn_search);
 
+        btn_cart = findViewById(R.id.btn_cart);
+
         button_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openFoundProduct();
             }
         });
+
+        btn_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCart();
+            }
+        });
     }
 
     public void openFoundProduct(){
         Intent intent = new Intent("android.intent.action.product");
+        startActivity(intent);
+    }
+
+
+    public void openCart(){
+        Intent intent = new Intent("android.intent.action.list");
         startActivity(intent);
     }
 }
