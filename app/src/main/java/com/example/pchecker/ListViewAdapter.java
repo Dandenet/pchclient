@@ -32,8 +32,8 @@ public class ListViewAdapter extends ArrayAdapter<JSONObject> {
         TextView name = listViewItem.findViewById(R.id.textViewName);
         TextView email = listViewItem.findViewById(R.id.textViewPrice);
         try{
-            name.setText(usersList.get(position).getString("name"));
-            email.setText(usersList.get(position).getString("email"));
+            name.setText(usersList.get(position).getJSONObject("product").getString("name"));
+            email.setText(usersList.get(position).getString("quantity"));
         }catch (JSONException je){
             je.printStackTrace();
         }

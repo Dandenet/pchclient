@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 public class List extends AppCompatActivity {
 
-    private static final String JSON_URL = "http://m1.maxfad.ru/api/users.json";// UTF-8
+    private static final String JSON_URL = "http://192.168.1.64:8080/api/cart/user/user1";// UTF-8
     ListView listView;
 
     @Override
@@ -49,8 +49,7 @@ public class List extends AppCompatActivity {
                     public void onResponse(String response) {
                         progressBar.setVisibility(View.INVISIBLE);
                         try {
-                            JSONObject object = new JSONObject(EncodingToUTF8(response));
-                            JSONArray jsonArray = object.getJSONArray("users");
+                            JSONArray jsonArray = new JSONArray(EncodingToUTF8(response));
                             ArrayList< JSONObject> listItems = getArrayListFromJSONArray(jsonArray);
                             ListAdapter adapter = new ListViewAdapter(getApplicationContext(),R.layout.row,R.id.textViewName,listItems);
                             listView.setAdapter(adapter);
