@@ -28,7 +28,7 @@
         </activity>
 
         <activity
-            android:name=".SearchPage"
+            android:name=".ScannerActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.found" />
@@ -39,7 +39,7 @@
 
 
         <activity
-            android:name=".ProductPage"
+            android:name=".ProductActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.product" />

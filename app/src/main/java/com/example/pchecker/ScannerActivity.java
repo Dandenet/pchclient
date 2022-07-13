@@ -1,33 +1,41 @@
 package com.example.pchecker;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.EditText;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.pchecker.model.Cart;
+import com.example.pchecker.model.Product;
+import com.example.pchecker.model.User;
 
-public class SearchPage extends AppCompatActivity {
+import java.util.Optional;
 
-    Button button_search, btn_cart;
+public class ScannerActivity extends AppCompatActivity {
+
+    private Button button_scan, btn_cart;
+    private EditText code_edit;
+    private User mUser;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.price_checker);
-        button_search = findViewById(R.id.btn_search);
-
+        setContentView(R.layout.activity_scanner);
+        button_scan = findViewById(R.id.btn_scan);
         btn_cart = findViewById(R.id.btn_cart);
 
-        button_search.setOnClickListener(new View.OnClickListener() {
+        code_edit = findViewById(R.id.edit_code);
+
+        button_scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openFoundProduct();
+                scanProduct();
             }
         });
 
@@ -39,8 +47,9 @@ public class SearchPage extends AppCompatActivity {
         });
     }
 
-    public void openFoundProduct(){
+    public void scanProduct(){
         Intent intent = new Intent("android.intent.action.product");
+        intent.putExtra("code", code_edit.getText().toString());
         startActivity(intent);
     }
 
