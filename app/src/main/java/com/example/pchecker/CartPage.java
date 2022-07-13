@@ -16,7 +16,7 @@ public class CartPage extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cart_customer);
 
-        ListView product_list = findViewById(R.id.Product_list);
+        ListView product_list = findViewById(R.id.product_list);
 
         product_list.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, Cart.items_id.toArray()));
 

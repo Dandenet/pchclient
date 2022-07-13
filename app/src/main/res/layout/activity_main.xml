@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="6dp"
             android:layout_weight="1"
-            android:text="@string/btnSignIn" />
+            android:text="@string/btn_signin" />
 
         <Button
             android:id="@+id/btnRegister"
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
             android:layout_weight="1"
-            android:text="@string/btnRegister" />
+            android:text="@string/btn_signup" />
     </LinearLayout>
 
 </RelativeLayout>
