@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnSignIn;
     private EditText usernameEdit, passwordEdit;
 
-    private final String authUrl = "http://192.168.1.64:8080/api/auth";
+    private final String authUrl = "http://192.168.1.5:8080/api/auth";
     private final String signInUrl = authUrl + "/signin";
 
     private User mUser;
@@ -44,14 +46,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        btnSignIn = (Button) findViewById(R.id.btnSignIn);
+        btnSignIn = (Button) findViewById(R.id.button_sign);
         usernameEdit = findViewById(R.id.edit_username);
         passwordEdit = findViewById(R.id.edit_password);
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showSignIn();
+//                signIn(usernameEdit.getText().toString(), passwordEdit.getText().toString());
+//                mUser = signIn("user1", "12345678");
+
+                mUser = signIn(usernameEdit.getText().toString(), passwordEdit.getText().toString());
+                Intent intent = new Intent("android.intent.action.found");
+                startActivity(intent);
             }
         });
 
@@ -59,25 +66,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void openScanner(View view){
-            mUser = signIn("user1", "12345678");
-
-            Intent intent = new Intent("android.intent.action.found");
-            startActivity(intent);
-    }
-
-
-    private void showSignIn() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setTitle("Вход");
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View signInDialog = inflater.inflate(R.layout.signin_dialog, null);
-        dialog.setView(signInDialog);
-        dialog.show();
-    }
+//    public void openScanner(View view){
+//            mUser = signIn("user1", "12345678");
+//
+//            Intent intent = new Intent("android.intent.action.found");
+//            startActivity(intent);
+//    }
 
 
     private User signIn(String username, String password) {
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressbar_loading);
+        progressBar.setVisibility(ListView.VISIBLE);
         User user = new User();
 
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -85,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 try {
+                    progressBar.setVisibility(View.INVISIBLE);
                     JSONObject jsObj = new JSONObject(response);
                     user.setId(jsObj.getLong("id"));
                     user.setUsername(jsObj.getString("username"));
