@@ -12,13 +12,13 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class ListViewAdapter extends ArrayAdapter<JSONObject> {
+public class CartViewAdapter extends ArrayAdapter<JSONObject> {
 
     int listLayout;
     ArrayList<JSONObject> usersList;
     Context context;
 
-    public ListViewAdapter(Context context, int listLayout , int field, ArrayList< JSONObject> usersList) {
+    public CartViewAdapter(Context context, int listLayout , int field, ArrayList< JSONObject> usersList) {
         super(context, listLayout, field, usersList);
         this.context = context;
         this.listLayout=listLayout;

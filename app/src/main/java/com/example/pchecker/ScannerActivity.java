@@ -21,7 +21,7 @@ public class ScannerActivity extends AppCompatActivity {
 
     private Button button_scan, btn_cart;
     private EditText code_edit;
-    private User mUser;
+    private User user;
 
 
 
@@ -38,7 +38,7 @@ public class ScannerActivity extends AppCompatActivity {
         Bundle arguments = getIntent().getExtras();
 
         if(arguments!=null){
-            mUser = (User) arguments.getSerializable(User.class.getSimpleName());
+            user = (User) arguments.getSerializable(User.class.getSimpleName());
         }
 
         button_scan.setOnClickListener(new View.OnClickListener() {
@@ -61,13 +61,14 @@ public class ScannerActivity extends AppCompatActivity {
     public void scanProduct(){
         Intent intent = new Intent("android.intent.action.product");
         intent.putExtra("code", code_edit.getText().toString());
-        intent.putExtra(User.class.getSimpleName(), mUser);
+        intent.putExtra(User.class.getSimpleName(), user);
         startActivity(intent);
     }
 
 
     public void openCart(){
         Intent intent = new Intent("android.intent.action.list");
+        intent.putExtra(User.class.getSimpleName(), user);
         startActivity(intent);
     }
 }
