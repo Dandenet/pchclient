@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 signIn(usernameEdit.getText().toString(), passwordEdit.getText().toString());
+
             }
         });
 
