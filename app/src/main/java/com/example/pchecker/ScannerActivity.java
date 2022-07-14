@@ -40,7 +40,7 @@ public class ScannerActivity extends AppCompatActivity {
         if(arguments!=null){
             mUser = (User) arguments.getSerializable(User.class.getSimpleName());
         }
-        tmp();
+
         button_scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,10 +56,7 @@ public class ScannerActivity extends AppCompatActivity {
         });
     }
 
-    public void tmp()
-    {
-        Log.i("User: ",mUser.getUsername());
-    }
+ 
 
     public void scanProduct(){
         Intent intent = new Intent("android.intent.action.product");

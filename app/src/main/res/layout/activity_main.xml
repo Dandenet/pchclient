@@ -5,10 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bgr"
     tools:context=".MainActivity">
     app:cardElevation="10dp">
     <LinearLayout
+        android:background="@drawable/bgr"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -18,8 +18,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-
+            android:layout_marginTop="10dp"
+            android:textColor="@color/white"
             android:text="Авторизация"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -42,6 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:hint="Введите пароль"
+
             android:inputType="textPassword" />
 
 

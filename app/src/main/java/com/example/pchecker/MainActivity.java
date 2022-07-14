@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnSignIn;
     private EditText usernameEdit, passwordEdit;
 
-    private final String authUrl = "http://192.168.1.64:8080/api/auth";
+    private final String authUrl = "http://192.168.1.5:8080/api/auth";
     private final String signInUrl = authUrl + "/signin";
 
     private User user = new User();
@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 signIn(usernameEdit.getText().toString(), passwordEdit.getText().toString());
-
             }
         });
 
@@ -81,7 +80,9 @@ public class MainActivity extends AppCompatActivity {
 
 
                     Intent intent = new Intent("android.intent.action.found");
+                    intent.putExtra(User.class.getSimpleName(), user);
                     startActivity(intent);
+                    finish();
 
                 } catch (JSONException exception) {
                     Log.i("JSON", exception.getMessage());
