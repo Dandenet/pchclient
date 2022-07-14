@@ -2,9 +2,7 @@ package com.example.pchecker;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.ListAdapter;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,18 +12,22 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.pchecker.model.Product;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
+import com.example.pchecker.model.Product;
+
+import java.io.UnsupportedEncodingException;
+
 
 public class ProductActivity extends AppCompatActivity {
     private final String url = "http:/192.168.1.64:8080/api/product/";
     private String code;
-
+    private TextView nameTxtView;
+    private TextView descriptionTxtView;
+    private TextView priceTxtView;
+    private Product product = new Product();
 
 
     @Override
@@ -33,44 +35,55 @@ public class ProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
 
+        nameTxtView         = findViewById(R.id.productName_text);
+        descriptionTxtView  = findViewById(R.id.productDescription_text);
+        priceTxtView        = findViewById(R.id.productPrice_text);
+
         Bundle arguments = getIntent().getExtras();
         code = arguments.getString("code");
 
         getProductByCode(code);
     }
 
-    private Product getProductByCode(String code) {
+    private void getProductByCode(String code) {
 
-        Product product = new Product();
 
-        StringRequest request = new StringRequest(Request.Method.GET, url + code, new Response.Listener< String>(){
-                    @Override
-                    public void onResponse(String response) {
 
-                        try {
-                            Log.i("Response", response);
+        StringRequest request = new StringRequest(Request.Method.GET, url + code, (response) -> {
 
-                            JSONObject jsonObject = new JSONObject(response);
+            try {
+                Log.i("Response", response);
 
-                            product.setId(jsonObject.getLong("id"));
-                            product.setName(jsonObject.getString("name"));
-                            product.setDescription( jsonObject.getString("description") );
-                            product.setPrice( jsonObject.getString("price") );
+                JSONObject jsonObject = new JSONObject(EncodingToUTF8(response));
 
-                        } catch (JSONException e) {
-                            Log.e("JSON", e.getMessage());
-                        }
+                product.setId(jsonObject.getLong("id"));
+                product.setName(jsonObject.getString("name"));
+                product.setDescription( jsonObject.getString("description") );
+                product.setPrice( jsonObject.getString("price") );
 
-                    }
-                }, new Response.ErrorListener(){
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("VOLLEY", error.getMessage());
-                    }
-                });
+
+                nameTxtView.setText(product.getName());
+                descriptionTxtView.setText(product.getDescription());
+                priceTxtView.setText(product.getPrice() + " руб");
+
+            } catch (JSONException e) {
+                Log.e("JSON", e.getMessage());
+            }
+
+        }, error -> Log.e("VOLLEY", error.getMessage()));
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(request);
-        return product;
+    }
+
+    public  static  String EncodingToUTF8(String response){
+        try {
+            byte[] code = response.toString().getBytes("ISO-8859-1");
+            response = new String(code, "UTF-8");
+        }catch (UnsupportedEncodingException e){
+            e.printStackTrace();
+            return null;
+        }
+        return response;
     }
 }

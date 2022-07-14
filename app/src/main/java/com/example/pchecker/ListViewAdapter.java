@@ -30,10 +30,10 @@ public class ListViewAdapter extends ArrayAdapter<JSONObject> {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View listViewItem = inflater.inflate(listLayout, null, false);
         TextView name = listViewItem.findViewById(R.id.textViewName);
-        TextView email = listViewItem.findViewById(R.id.textViewPrice);
+        TextView price = listViewItem.findViewById(R.id.textViewPrice);
         try{
             name.setText(usersList.get(position).getJSONObject("product").getString("name"));
-            email.setText(usersList.get(position).getString("quantity"));
+            price.setText(usersList.get(position).getJSONObject("product").getString("price"));
         }catch (JSONException je){
             je.printStackTrace();
         }

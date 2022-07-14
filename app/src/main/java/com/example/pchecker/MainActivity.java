@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -34,10 +35,10 @@ public class MainActivity extends AppCompatActivity {
     private Button btnSignIn;
     private EditText usernameEdit, passwordEdit;
 
-    private final String authUrl = "http://192.168.1.5:8080/api/auth";
+    private final String authUrl = "http://192.168.1.64:8080/api/auth";
     private final String signInUrl = authUrl + "/signin";
 
-    private User mUser;
+    private User user = new User();
 
 
 
@@ -53,12 +54,7 @@ public class MainActivity extends AppCompatActivity {
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                signIn(usernameEdit.getText().toString(), passwordEdit.getText().toString());
-//                mUser = signIn("user1", "12345678");
-
-                mUser = signIn(usernameEdit.getText().toString(), passwordEdit.getText().toString());
-                Intent intent = new Intent("android.intent.action.found");
-                startActivity(intent);
+                signIn(usernameEdit.getText().toString(), passwordEdit.getText().toString());
             }
         });
 
@@ -66,18 +62,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-//    public void openScanner(View view){
-//            mUser = signIn("user1", "12345678");
-//
-//            Intent intent = new Intent("android.intent.action.found");
-//            startActivity(intent);
-//    }
-
-
-    private User signIn(String username, String password) {
+    private void signIn(String username, String password) {
         final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressbar_loading);
         progressBar.setVisibility(ListView.VISIBLE);
-        User user = new User();
 
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest request = new StringRequest(Request.Method.POST, signInUrl, new Response.Listener<String>() {
@@ -91,14 +78,20 @@ public class MainActivity extends AppCompatActivity {
                     user.setEmail(jsObj.getString("email"));
                     user.setToken(jsObj.getString("token"));
 
+
+                    Intent intent = new Intent("android.intent.action.found");
+                    startActivity(intent);
+
                 } catch (JSONException exception) {
-                    Log.i("JSON:", exception.getMessage());
+                    Log.i("JSON", exception.getMessage());
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("[VOLLEY]", error.toString());
+                Log.e("VOLLEY", error.toString());
+                progressBar.setVisibility(ListView.GONE);
+                Toast.makeText(getApplicationContext(), "Ошибка авторизации",Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
@@ -128,7 +121,5 @@ public class MainActivity extends AppCompatActivity {
         };
 
         queue.add(request);
-
-        return user;
     }
 }

@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 public class List extends AppCompatActivity {
 
-    private static final String JSON_URL = "http://192.168.74.56:8080/api/cart/user/user1";// UTF-8
+    private static final String JSON_URL = "http://192.168.1.64:8080/api/cart/user/user1";
     ListView listView;
 
     @Override
