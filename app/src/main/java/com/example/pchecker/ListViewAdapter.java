@@ -33,7 +33,7 @@ public class ListViewAdapter extends ArrayAdapter<JSONObject> {
         TextView price = listViewItem.findViewById(R.id.textViewPrice);
         try{
             name.setText(usersList.get(position).getJSONObject("product").getString("name"));
-            price.setText(usersList.get(position).getJSONObject("product").getString("price"));
+            price.setText(usersList.get(position).getJSONObject("product").getString("price") + " руб");
         }catch (JSONException je){
             je.printStackTrace();
         }

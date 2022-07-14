@@ -61,6 +61,7 @@ public class ScannerActivity extends AppCompatActivity {
     public void scanProduct(){
         Intent intent = new Intent("android.intent.action.product");
         intent.putExtra("code", code_edit.getText().toString());
+        intent.putExtra(User.class.getSimpleName(), mUser);
         startActivity(intent);
     }
 

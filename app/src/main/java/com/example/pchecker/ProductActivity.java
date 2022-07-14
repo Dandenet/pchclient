@@ -1,11 +1,17 @@
 package com.example.pchecker;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -17,17 +23,25 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.example.pchecker.model.Product;
+import com.example.pchecker.model.User;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 
 public class ProductActivity extends AppCompatActivity {
     private final String url = "http:/192.168.1.64:8080/api/product/";
-    private String code;
+    private final String cartUrl = "http:/192.168.1.64:8080/api/cart/user/";
+
+
     private TextView nameTxtView;
     private TextView descriptionTxtView;
     private TextView priceTxtView;
+    private Button   addProductButton;
+
+    private String  code;
     private Product product = new Product();
+    private User    user;
 
 
     @Override
@@ -38,16 +52,26 @@ public class ProductActivity extends AppCompatActivity {
         nameTxtView         = findViewById(R.id.productName_text);
         descriptionTxtView  = findViewById(R.id.productDescription_text);
         priceTxtView        = findViewById(R.id.productPrice_text);
+        addProductButton    = findViewById(R.id.addProduct_button);
 
         Bundle arguments = getIntent().getExtras();
-        code = arguments.getString("code");
+
+        if(arguments!=null) {
+            code = arguments.getString("code");
+            user = (User) arguments.getSerializable(User.class.getSimpleName());
+        }
 
         getProductByCode(code);
+
+        addProductButton.setOnClickListener(view -> {
+            AppendProductToCart();
+        });
     }
 
+
+
+    // Lodes product to the activity by product code
     private void getProductByCode(String code) {
-
-
 
         StringRequest request = new StringRequest(Request.Method.GET, url + code, (response) -> {
 
@@ -74,6 +98,49 @@ public class ProductActivity extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(request);
+    }
+
+
+    private void AppendProductToCart() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest request = new StringRequest(Request.Method.POST,
+                cartUrl + user.getUsername(),
+                new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(getApplicationContext(), "Добавлено",Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("VOLLEY", error.toString());
+                Toast.makeText(getApplicationContext(), "Ошибка",Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+
+                JSONObject object = new JSONObject();
+
+                try {
+                    object.put("id", product.getId());
+                    object.put("name", product.getName());
+                    object.put("quantity", 1);
+                } catch (JSONException e) {
+                    Log.e("JSON:", e.getMessage());
+                }
+
+
+                return object.toString().getBytes(StandardCharsets.UTF_8);
+            }
+        };
+
+        queue.add(request);
     }
 
     public  static  String EncodingToUTF8(String response){
